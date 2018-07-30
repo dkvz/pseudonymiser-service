@@ -47,12 +47,21 @@ public class Pseudonymiser {
         long l = ByteUtils.bytesToLong(Arrays.copyOfRange(res, 0, 8));
         return this.findName(l);
     }
-    
-    // TODO This has to be changed
-    private String readLine(long line) throws IOException {
-        try (Stream<String> lines = Files.lines(Paths.get(this.filename))) {
-            return lines.skip(line).findFirst().get();
+        
+    private String readLine(long lineNumber) throws IOException {
+        InputStream inputStream = new ClassPathResource(this.filename).getInputStream();
+        long lc = 1;
+        try (BufferedReader br
+          = new BufferedReader(new InputStreamReader(inputStream))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (lc == lineNumber) {
+                	return line;
+                }
+            	lc++;
+            }
         }
+        throw new IOException("Error reading the file");
     }
     
     private String findName(long val) throws IOException {

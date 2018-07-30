@@ -13,14 +13,14 @@ public class ServiceController {
 	@CrossOrigin(origins = "*")
 	@RequestMapping("/{value}")
 	public String rootPseudo(@PathVariable String value) throws Exception {
-		return this.getPseudo(value);
+		return this.getPseudo(value).toLowerCase();
 	}
 	
 	@CrossOrigin(origins = "*")
 	@RequestMapping("/as-json/{value}")
 	public Map<String, String> jsonPseudo(@PathVariable String value) throws Exception {
 		Map<String, String> ret = new HashMap<>();
-		ret.put("result", this.getPseudo(value));
+		ret.put("result", this.getPseudo(value).toLowerCase());
 		return ret;
 	}
 	
